@@ -5,6 +5,7 @@
  */
 package testex;
 
+import interfaces.IDateFormatter;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -12,6 +13,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.mockito.Mock;
 
 /**
  *
@@ -19,8 +21,10 @@ import static org.junit.Assert.*;
  */
 public class JokeFetcherTest {
     
-    public JokeFetcherTest() {
-    }
+    private JokeFetcher jokeFetcher;
+
+    @Mock
+    IDateFormatter dateFormatter;
     
     @BeforeClass
     public static void setUpClass() {
@@ -44,7 +48,7 @@ public class JokeFetcherTest {
     @Test
     public void testGetAvailableTypes() {
         System.out.println("getAvailableTypes");
-        JokeFetcher instance = new JokeFetcher();
+        JokeFetcher instance = new JokeFetcher(dateFormatter);
         List<String> expResult = null;
         List<String> result = instance.getAvailableTypes();
         assertEquals(expResult, result);
@@ -59,7 +63,7 @@ public class JokeFetcherTest {
     public void testIsStringValid() {
         System.out.println("isStringValid");
         String jokeTokens = "";
-        JokeFetcher instance = new JokeFetcher();
+        JokeFetcher instance = new JokeFetcher(dateFormatter);
         boolean expResult = false;
         boolean result = instance.isStringValid(jokeTokens);
         assertEquals(expResult, result);
@@ -75,7 +79,7 @@ public class JokeFetcherTest {
         System.out.println("getJokes");
         String jokesToFetch = "";
         String timeZone = "";
-        JokeFetcher instance = new JokeFetcher();
+        JokeFetcher instance = new JokeFetcher(dateFormatter);
         Jokes expResult = null;
         Jokes result = instance.getJokes(jokesToFetch, timeZone);
         assertEquals(expResult, result);
