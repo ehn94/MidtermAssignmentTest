@@ -52,17 +52,24 @@ public class JokeFetcherTest {
     /**
      * Test of isStringValid method, of class JokeFetcher.
      */
-//    @Test
-//    public void testIsStringValid() {
-//        System.out.println("isStringValid");
-//        String jokeTokens = "";
-//        JokeFetcher instance = new JokeFetcher(dateFormatter);
-//        boolean expResult = false;
-//        boolean result = instance.isStringValid(jokeTokens);
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
+    @Test
+    public void testIsStringValidTrue() {
+        System.out.println("isStringValid expected to be true");
+        String jokeTokens = "eduprog,chucknorris,moma,tambal";
+        JokeFetcher instance = new JokeFetcher(dateFormatter);
+        boolean expResult = true;
+        boolean result = instance.isStringValid(jokeTokens);
+        assertEquals(expResult, result);
+    }
+    @Test
+    public void testIsStringValidFalse() {
+        System.out.println("isStringValid expected to be false");
+        String jokeTokens = "eduprog1.chucknorris1,moma1,tambal1";
+        JokeFetcher instance = new JokeFetcher(dateFormatter);
+        boolean expResult = false;
+        boolean result = instance.isStringValid(jokeTokens);
+        assertEquals(expResult, result);
+    }
 //
 //    /**
 //     * Test of getJokes method, of class JokeFetcher.
