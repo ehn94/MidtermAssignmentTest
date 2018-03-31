@@ -13,15 +13,17 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
 /**
  *
  * @author ehn19
  */
+@RunWith(MockitoJUnitRunner.class)
 public class JokeFetcherTest {
     
-    private JokeFetcher jokeFetcher;
 
     @Mock
     IDateFormatter dateFormatter;
