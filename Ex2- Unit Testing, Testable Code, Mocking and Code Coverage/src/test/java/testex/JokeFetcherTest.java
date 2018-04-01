@@ -14,16 +14,15 @@ import jokes.ChuckNorris;
 import jokes.EduJoke;
 import jokes.Moma;
 import jokes.Tambal;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.hamcrest.CoreMatchers.is;
-import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
+import static org.hamcrest.CoreMatchers.*;
+import org.junit.Before;
 import org.junit.runner.RunWith;
+import static org.mockito.BDDMockito.given;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import static org.mockito.Mockito.*; 
 
 /**
  *
@@ -31,15 +30,15 @@ import static org.mockito.Mockito.*;
  */
 @RunWith(MockitoJUnitRunner.class)
 public class JokeFetcherTest {
-    
-private JokeFetcher jokeFetcher;
+
+    private JokeFetcher jokeFetcher;
 
     @Mock
-    IDateFormatter dateFormatter;
+    private IDateFormatter dateFormatter;
 
     @Mock
     IFetcherFactory factory;
-    
+
     @Mock
     List<IJokeFetcher> results;
 
@@ -63,7 +62,6 @@ private JokeFetcher jokeFetcher;
         when(factory.getAvailableTypes()).thenReturn(types);
         jokeFetcher = new JokeFetcher(dateFormatter, factory);
     }
-
 
     /**
      * Test of getAvailableTypes method, of class JokeFetcher.
@@ -89,6 +87,7 @@ private JokeFetcher jokeFetcher;
         boolean result = jokeFetcher.isStringValid(jokeTokens);
         assertThat(expResult, is(result));
     }
+
     @Test
     public void testIsStringValidFalse() {
         System.out.println("isStringValid expected to be false");
@@ -100,32 +99,26 @@ private JokeFetcher jokeFetcher;
 
     /**
      * Test of getJokes method, of class JokeFetcher.
+     *
      * @throws testex.JokeException
      */
-//   @Test
-//    public void testGetJokes() throws JokeException {
-//        Date date = new Date();
-//        when(dfMock.getFormattedDate(date, "Europe/Copenhagen"))
-//                .thenReturn("17 feb. 2018 10:56 AM");
-//        System.out.println("getJokes");
-//        
-//        JokeFetcher instance = new JokeFetcher(dfMock);
-//        Jokes jokes = instance.getJokes("eduprog,chucknorris,chucknorris,moma,tambal", "Europe/Copenhagen");
-//        String result = jokes.getTimeZoneString();
-//        
-//        String expRes = dfMock.getFormattedDate(date, "Europe/Copenhagen");
-//        System.out.println(expRes);
-//        assertEquals(expRes, result);
-//        verify(dfMock).getFormattedDate(date, "Europe/Copenhagen");
-//        // TODO review the generated test code and remove the default call to fail.
-//    }
-   
+
+    @Test
+    public void testGetJokesState() throws JokeException {
+        System.out.println("testGetJokes state based");
+        given(dateFormatter.getFormattedDate(eq("Europe/Copenhagen"), anyObject())).willReturn("31 mar. 2018 11:08 PM");
+        assertThat(jokeFetcher.getJokes("eduprog,chucknorris,moma,tambal", "Europe/Copenhagen").getTimeZoneString(), is("31 mar. 2018 11:08 PM"));
+
+        verify(dateFormatter, times(1)).getFormattedDate(eq("Europe/Copenhagen"), anyObject());
+
+    }
+
     @Test(expected = JokeException.class)
     public void testGetException() throws JokeException {
         System.out.println("testGetException expecting a JokeException");
         jokeFetcher.getJokes("yourmama", "Europe/Copenhagen");
     }
-    
+
     @Test
     public void testGetJokes() throws JokeException {
         System.out.println("testGetJokes");
@@ -138,7 +131,7 @@ private JokeFetcher jokeFetcher;
 
         assertThat(result.size(), is(4));
     }
-    
+
     @Test
     public void testEduJokeMock() {
         System.out.println("testEduJokeMock");
@@ -148,7 +141,7 @@ private JokeFetcher jokeFetcher;
         assertThat(eduJoke.getJoke().getReference(), equalTo("http://jokes-plaul.rhcloud.com/api/joke"));
         results.add(eduJoke);
         verify(results).add(eduJoke);
-        
+
         when(results.size()).thenReturn(1);
         assertThat(results.size(), equalTo(1));
     }
@@ -161,7 +154,7 @@ private JokeFetcher jokeFetcher;
         assertThat(chuckNorris.getJoke().getReference(), equalTo("http://api.icndb.com/jokes/random"));
         results.add(chuckNorris);
         verify(results).add(chuckNorris);
-        
+
         when(results.size()).thenReturn(1);
         assertThat(results.size(), equalTo(1));
     }
@@ -174,7 +167,7 @@ private JokeFetcher jokeFetcher;
         assertThat(moma.getJoke().getReference(), equalTo("http://api.yomomma.info/"));
         results.add(moma);
         verify(results).add(moma);
-        
+
         when(results.size()).thenReturn(1);
         assertThat(results.size(), equalTo(1));
     }
@@ -188,15 +181,16 @@ private JokeFetcher jokeFetcher;
         assertThat(tambal.getJoke().getReference(), equalTo("http://tambal.azurewebsites.net/joke/random"));
         results.add(tambal);
         verify(results).add(tambal);
-        
+
         when(results.size()).thenReturn(1);
         assertThat(results.size(), equalTo(1));
     }
-    
+
     @Test
     public void testAvailableTypesMock() {
         System.out.println("TestAvailableTypesMock");
-        when(factory.getAvailableTypes()).thenReturn(Arrays.asList("eduprog","chucknorris","moma","tambal"));
+        when(factory.getAvailableTypes()).thenReturn(Arrays.asList("eduprog", "chucknorris", "moma", "tambal"));
         assertThat(factory.getAvailableTypes().size(), equalTo(4));
     }
+
 }

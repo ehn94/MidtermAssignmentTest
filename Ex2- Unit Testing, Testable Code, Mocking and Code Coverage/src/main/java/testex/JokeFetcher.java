@@ -23,6 +23,7 @@ public class JokeFetcher {
 
     public JokeFetcher(IDateFormatter dateFormatter, IFetcherFactory factory) {
         _dateFormatter = dateFormatter;
+        this.factory = factory;
     }
 
     /**
@@ -34,14 +35,7 @@ public class JokeFetcher {
      */
     private final List<String> availableTypes = Arrays.asList("eduprog", "chucknorris", "moma", "tambal");
 
-    /**
-     * The valid string values to use in a call to getJokes(..)
-     *
-     * @return All the valid strings that can be used
-     */
-    public List<String> getAvailableTypes() {
-        return availableTypes;
-    }
+
 
     /**
      * Verifies whether a provided value is a valid string (contained in
@@ -84,11 +78,11 @@ public class JokeFetcher {
     for(IJokeFetcher fetcher : factory.getJokeFetchers(jokesToFetch)){
         jokes.addJoke(fetcher.getJoke());
     }
-    String timeZoneString = _dateFormatter.getFormattedDate(new Date(), timeZone); //Delegating the responsibility
+    String timeZoneString = _dateFormatter.getFormattedDate(timeZone, new Date()); //Delegating the responsibility
     jokes.setTimeZoneString(timeZoneString);
     return jokes;
-  }
-
+  } 
+    
     /**
      * DO NOT TEST this function. It's included only to get a quick way of
      * executing the code
@@ -99,7 +93,7 @@ public class JokeFetcher {
         DateFormatter dateFormatter = new DateFormatter();
         FetcherFactory factory = new FetcherFactory();
         JokeFetcher jf = new JokeFetcher(dateFormatter, factory);
-        Jokes jokes = jf.getJokes("eduprog,chucknorris,chucknorris,moma,tambal", "Europe/Copenhagen");
+        Jokes jokes = jf.getJokes("eduprog,chucknorris,moma,tambal", "Europe/Copenhagen");
         jokes.getJokes().forEach((joke) -> {
             System.out.println(joke);
         });

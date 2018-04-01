@@ -19,7 +19,7 @@ public class DateFormatter implements IDateFormatter{
  */
     
   @Override
-  public String getFormattedDate(Date date, String timeZone) throws JokeException  {
+  public String getFormattedDate(String timeZone, Date date) throws JokeException  {
     if(!Arrays.asList(TimeZone.getAvailableIDs()).contains(timeZone)){
       throw new JokeException("Illegal Time Zone String");
     }
@@ -34,7 +34,7 @@ public class DateFormatter implements IDateFormatter{
    * It's included only to get a quick way of executing the code
    * Execute to see available time format strings and responses to calling the single (non-main) public method
    */
-  public static void main(String[] args) throws JokeException  {
+  /*public static void main(String[] args) throws JokeException  {
     
     for (String str : TimeZone.getAvailableIDs()) {
       System.out.println(str);
@@ -47,6 +47,6 @@ public class DateFormatter implements IDateFormatter{
     
     
     
-  }
+  }*/
 
 }

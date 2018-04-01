@@ -15,8 +15,9 @@ import java.util.List;
  *
  * @author ehn19
  */
-public class FetcherFactory implements IFetcherFactory{
+public class FetcherFactory implements IFetcherFactory {
 
+   
     private final List<String> availableTypes 
             = Arrays.asList("eduprog","chucknorris","moma","tambal");
     
@@ -50,5 +51,5 @@ public class FetcherFactory implements IFetcherFactory{
         }
         return getJokes;
     }
-    
+
 }

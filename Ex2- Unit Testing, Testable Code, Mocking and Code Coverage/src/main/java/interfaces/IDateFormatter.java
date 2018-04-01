@@ -13,5 +13,5 @@ import testex.JokeException;
  * @author ehn19
  */
 public interface IDateFormatter {
-    String getFormattedDate(Date date, String timeZone) throws JokeException;
+    String getFormattedDate(String timeZone, Date date) throws JokeException;
 }
